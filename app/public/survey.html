@@ -121,6 +121,43 @@
         </div>
     </footer>
 
+    <script type="text/javascript">
+        $("#submit").on("click", function () {
+            function validateForm() {
+                var isValid = true;
+                $(".form-control").each(function () {
+                    if ($(this).val() === "") isValid = false;
+                });
+                $(".chosen-select").each(function () {
+                    if ($(this).val() === "") isValid = false;
+                });
+                return isValid;
+            }
+            if (validateForm() === true) {
+                var userData = {
+                    name: $("#name").val(),
+                    photo: $("#photo").val(),
+                    scores: [
+                        $("q1").val(),
+                        $("q2").val(),
+                        $("q3").val(),
+                        $("q4").val(),
+                        $("q5").val(),
+                    ]
+                };
+
+                $.post("/api/friends", userData, function (data) {
+                    $("#matchName").text(data.name);
+                    $("#matchImg").attr("src", data.photo);
+                    //modal goes here
+                });
+            }
+            else {
+                alert("Fill out the form right if you want to meet just as pathetic as your are")
+            }
+        })
+    </script>
+
 </body>
 
 </html>
